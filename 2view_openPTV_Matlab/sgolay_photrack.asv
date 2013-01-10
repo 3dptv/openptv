@@ -1,0 +1,38 @@
+function smooth_vec=sgolay_photrack(vec,width,order)
+
+smooth_vec=vec;
+si=size(vec);
+for i=1:si(1,1)
+    
+    be=i-round(width/2);
+    en=i+round(width/2);
+    if be<1
+        be=1;
+    end
+    if en>si(1,1)
+        en=si(1,1);
+    end
+    if en-be<10 & order>2
+        order=2;
+    end
+    if en-be<5 & order>1
+        order=1;
+    end
+    if en-be<3 & order>0
+        order=0;
+    end
+    
+    A=[];
+    for j=be:en        
+        for or=0:order
+            A(j-be+1,or+1)=(i-be)^or;
+        end
+        y(j-be+1)=vec(j);
+    end
+    X=(A'*A)\A'*y;
+    
+    for or=0:order
+        smooth_vec(i)=proj(n)+X(or+1,n)*time^or;
+    end
+
+          
